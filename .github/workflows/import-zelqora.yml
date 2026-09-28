@@ -3,7 +3,7 @@ name: Import Zelqora ZIP
 on:
   push:
     paths:
-      - "zelqora-v11-nonpayment-launch-2.zip"
+      - "*.zip"
 
 permissions:
   contents: write
@@ -15,10 +15,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Extract Zelqora
+      - name: Find and extract Zelqora ZIP
         run: |
-          unzip -o "zelqora-v11-nonpayment-launch-2.zip" -d .
-          rm -f "zelqora-v11-nonpayment-launch-2.zip"
+          ZIP="$(find . -maxdepth 1 -type f -name '*.zip' | head -n 1)"
+          if [ -z "$ZIP" ]; then
+            echo "No ZIP file found"
+            exit 1
+          fi
+          unzip -o "$ZIP" -d .
+          rm -f "$ZIP"
+
+      - name: Flatten extracted project folder
+        run: |
+          DIR="$(find . -maxdepth 1 -type d -name 'zelqora-v11-nonpayment-launch*' | head -n 1)"
+          if [ -n "$DIR" ]; then
+            shopt -s dotglob
+            cp -R "$DIR"/* .
+            rm -rf "$DIR"
+          fi
 
       - name: Commit extracted project
         run: |
