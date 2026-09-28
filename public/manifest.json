@@ -1,0 +1,19 @@
+{
+  "name": "Zelqora",
+  "short_name": "Zelqora",
+  "description": "Chat • Watch • Connect",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#080911",
+  "theme_color": "#080911",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/zelqora-logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
