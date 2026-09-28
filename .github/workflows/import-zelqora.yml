@@ -1,0 +1,33 @@
+name: Import Zelqora ZIP
+
+on:
+  push:
+    paths:
+      - "zelqora-v11-nonpayment-launch-2.zip"
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Extract Zelqora
+        run: |
+          unzip -o "zelqora-v11-nonpayment-launch-2.zip" -d .
+          rm -f "zelqora-v11-nonpayment-launch-2.zip"
+
+      - name: Commit extracted project
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "Import Zelqora project"
+          git push
