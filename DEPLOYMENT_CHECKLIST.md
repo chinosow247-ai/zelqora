@@ -1,0 +1,16 @@
+# Zelqora production launch checklist
+- [ ] Replace JSON storage with PostgreSQL (DATABASE_SCHEMA.sql).
+- [ ] Move uploads from local disk to private object storage/CDN.
+- [ ] Set a long random JWT_SECRET and production CORS origin.
+- [ ] Add HTTPS and a reverse proxy/load balancer.
+- [ ] Configure real push notifications (FCM/APNs).
+- [ ] Connect Paystack/Flutterwave or store billing where permitted.
+- [ ] Complete KYC/merchant verification for payouts.
+- [ ] Configure backups, monitoring, error tracking and rate limits at the edge.
+- [ ] Publish final Terms and Privacy with a real support/contact address.
+- [ ] Establish content moderation, copyright reporting and appeals workflow.
+- [ ] Test account deletion, blocking, reporting, password changes and recovery.
+- [ ] Run Android release signing and Play Console testing.
+- [ ] Run iOS release signing and App Store Connect TestFlight testing.
+- [ ] Complete store privacy/data-safety declarations.
+- [ ] Perform load/security testing before public launch.

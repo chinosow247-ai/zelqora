@@ -1,0 +1,17 @@
+services:
+  zelqora:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      JWT_SECRET: ${JWT_SECRET}
+      CORS_ORIGINS: ${CORS_ORIGINS}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+    volumes:
+      - zelqora-data:/app/data
+      - zelqora-uploads:/app/uploads
+volumes:
+  zelqora-data:
+  zelqora-uploads:

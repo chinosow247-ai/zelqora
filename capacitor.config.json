@@ -1,0 +1,8 @@
+{
+  "appId": "com.zelqora.app",
+  "appName": "Zelqora",
+  "webDir": "public",
+  "server": {
+    "androidScheme": "https"
+  }
+}
