@@ -6,7 +6,7 @@ for(const k of ['lives','reposts','duets','stitches','collections','playlists','
 function own(req,resource){return resource&&resource.userId===req.user.id}
 function video(idv){return db.videos.find(v=>v.id===idv)}
 function clean(s,n=500){return String(s||'').trim().slice(0,n)}
-function purchaseLock(key){if(!db.__purchaseLocks)db.__purchaseLocks={};if(db.__purchaseLocks[key])return false;db.__purchaseLocks[key]=Date.now();return true}
+function purchaseLock(key){if(!db.__purchaseLocks)db.__purchaseLocks={};const now=Date.now(),stamp=Number(db.__purchaseLocks[key]||0);if(stamp&&now-stamp<60000)return false;db.__purchaseLocks[key]=now;return true}
 function clearPurchaseLock(key){if(db.__purchaseLocks)delete db.__purchaseLocks[key]}
 
 
