@@ -25,8 +25,8 @@ app.use('/api/auth/',limit(15*60*1000,30)); app.use('/api/reports',limit(10*60*1
 function auth(req,res,next){try{req.user=jwt.verify((req.headers.authorization||'').replace('Bearer ','').trim(),SECRET);if(!user(req.user.id)) throw new Error('user');next()}catch{res.status(401).json({error:'Authentication required'})}}
 function admin(req,res,next){const u=user(req.user.id);if(!u||u.role!=='admin')return res.status(403).json({error:'Admin access required'});next()}
 function user(id){return db.users.find(u=>u.id===id)} function ensureWallet(id){if(!db.wallets[id])db.wallets[id]={coins:0,premium:false,creatorEarningsCoins:0,payoutAccount:null};const w=db.wallets[id];if(typeof w.creatorEarningsCoins!=='number')w.creatorEarningsCoins=0;if(w.payoutAccount===undefined)w.payoutAccount=null;return w}
-function spendableCoins(id){return Math.max(0,Number(ensureWallet(id).coins)||0)}
-function spendCoins(id,amount){amount=Math.floor(Number(amount)||0);if(amount<0)return false;const w=ensureWallet(id);if(w.coins<amount)return false;w.coins-=amount;return true}
+function spendableCoins(id){const w=ensureWallet(id);return Math.max(0,(Number(w.coins)||0)-(Number(w.creatorEarningsCoins)||0))}
+function spendCoins(id,amount){amount=Math.floor(Number(amount)||0);if(amount<0)return false;const w=ensureWallet(id);if(spendableCoins(id)<amount)return false;w.coins-=amount;return true}
 function creditCreator(id,amount){amount=Math.floor(Number(amount)||0);if(amount<=0)return 0;const w=ensureWallet(id);w.creatorEarningsCoins=(w.creatorEarningsCoins||0)+amount;return amount}
 function transactionExists(userId,type,reference){return db.transactions.some(t=>t.userId===userId&&t.type===type&&t.reference===reference)}
 
