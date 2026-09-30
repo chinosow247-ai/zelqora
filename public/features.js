@@ -25,3 +25,8 @@ function enhance(){
 enhance();
 setTimeout(enhance,1000);
 })();
+window.openMoreZelqora=async()=>{sheet('<h2>🚀 More Zelqora</h2><div class="card">📸 Stories • 🎵 Sounds • 🔐 Privacy</div><div class="card">📈 Advanced Analytics • 👑 Verification • 📣 Promotions</div><div class="card">🔔 Notifications • 🛡️ Security PIN • 💬 Comment Filters</div><div class="card">💎 Paid Series • 📥 Download controls • 📌 Pinned posts</div><button class="btn" onclick="storyCreate()">📸 Create Story</button> <button class="btn alt" onclick="openAdvancedAnalytics()">📈 Analytics</button> <button class="btn alt" onclick="openPrivacy()">🔐 Privacy</button></div>')};
+window.storyCreate=async()=>{const u=prompt('Story media URL');if(!u)return;await fx('/api/stories',{method:'POST',body:JSON.stringify({mediaUrl:u})});toast('📸 Story posted for 24 hours')};
+window.openAdvancedAnalytics=async()=>{const d=await fx('/api/creator/advanced-analytics');sheet('<h2>📈 Advanced Analytics</h2><div class="card">Views: '+d.views+'<br>Likes: '+d.likes+'<br>Comments: '+d.comments+'<br>Watch time: '+d.watchTimeSeconds+'s<br>Videos: '+d.videos+'</div>')};
+window.openPrivacy=async()=>{const d=await fx('/api/privacy');sheet('<h2>🔐 Privacy</h2><label>Private account <input type="checkbox" id="pv" '+(d.privateAccount?'checked':'')+'></label><br><label>Allow messages <input type="checkbox" id="pm" '+(d.allowMessages!==false?'checked':'')+'></label><br><button class="btn" onclick="savePrivacy()">Save</button>')};
+window.savePrivacy=async()=>{await fx('/api/privacy',{method:'PUT',body:JSON.stringify({privateAccount:$('pv').checked,allowMessages:$('pm').checked})});toast('Privacy saved');$('modal').innerHTML=''};
