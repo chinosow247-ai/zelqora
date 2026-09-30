@@ -6,6 +6,9 @@ for(const k of ['lives','reposts','duets','stitches','collections','playlists','
 function own(req,resource){return resource&&resource.userId===req.user.id}
 function video(idv){return db.videos.find(v=>v.id===idv)}
 function clean(s,n=500){return String(s||'').trim().slice(0,n)}
+function purchaseLock(key){if(!db.__purchaseLocks)db.__purchaseLocks={};if(db.__purchaseLocks[key])return false;db.__purchaseLocks[key]=Date.now();return true}
+function clearPurchaseLock(key){if(db.__purchaseLocks)delete db.__purchaseLocks[key]}
+
 
 app.get('/api/features',auth,(req,res)=>res.json({version:'13.0.0',features:{live:true,duet:true,stitch:true,stories:true,reposts:true,saves:true,collections:true,playlists:true,editor:true,photoPosts:true,textPosts:true,search:true,hashtags:true,sounds:true,feedControls:true,groupChats:true,voiceMessages:true,mediaMessages:true,reactions:true,forwarding:true,studio:true,subscriptions:true,broadcasts:true,reporting:true,blocking:true,muting:true,commentFilters:true,spamProtection:true,copyrightReports:true,ageControls:true,appeals:true,coins:true,gifts:true,creatorWithdrawals:true}}));
 
