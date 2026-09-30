@@ -24,6 +24,19 @@ function auth(req,res,next){try{req.user=jwt.verify((req.headers.authorization||
 function admin(req,res,next){const u=user(req.user.id);if(!u||u.role!=='admin')return res.status(403).json({error:'Admin access required'});next()}
 function user(id){return db.users.find(u=>u.id===id)} function ensureWallet(id){if(!db.wallets[id])db.wallets[id]={coins:0,premium:false,creatorEarningsCoins:0,payoutAccount:null};const w=db.wallets[id];if(typeof w.creatorEarningsCoins!=='number')w.creatorEarningsCoins=0;if(w.payoutAccount===undefined)w.payoutAccount=null;return w}
 const COIN_NGN_VALUE=30;
+
+// Zelqora feature roadmap: LIVE, Duet, Stitch, Stories, Reposts, Saves/Collections,
+// Playlists, Creator Studio, Subscriptions, messaging upgrades, discovery controls,
+// moderation/reporting, privacy controls, drafts, and safety workflows.
+const ZELQORA_FEATURES={
+  live:{enabled:true,multiGuest:true,gifts:true,moderation:true,replay:true},
+  creation:{duet:true,stitch:true,drafts:true,photoPosts:true,textPosts:true,editor:true},
+  discovery:{forYou:true,following:true,search:true,hashtags:true,sounds:true,notInterested:true,refreshFeed:true,topicControls:true,keywordFilters:true},
+  social:{stories:true,reposts:true,saves:true,collections:true,playlists:true,groupChats:true,voiceMessages:true,messageReactions:true,mediaMessages:true,forwarding:true},
+  creator:{studio:true,analytics:true,subscriptions:true,broadcasts:true,earnings:true},
+  safety:{reporting:true,blocking:true,muting:true,commentFilters:true,spamProtection:true,copyrightReports:true,ageControls:true,appeals:true},
+  monetization:{coins:true,gifts:true,paystack:true,creatorWithdrawals:true,receipts:true,transactionHistory:true,fraudControls:true}
+};
 const GIFT_CATALOG=[
 {id:'zel-spark',name:'Zel Spark',coins:5,emoji:'✨',tier:'Small'},
 {id:'blue-pulse',name:'Blue Pulse',coins:10,emoji:'💙',tier:'Small'},
