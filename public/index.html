@@ -43,4 +43,4 @@ function logout(){localStorage.clear();location.reload()}function esc(x){return 
 let ws=null;
 function connectRealtime(){if(!token)return;try{const proto=location.protocol==='https:'?'wss':'ws';ws=new WebSocket(`${proto}://${location.host}/ws?token=${encodeURIComponent(token)}`);ws.onmessage=e=>{try{const d=JSON.parse(e.data);if(d.type==='message'){toast('New message');if($('inbox')?.classList.contains('active'))loadInbox()}}catch{}};ws.onclose=()=>setTimeout(connectRealtime,2500)}catch{}}
 if(token){start();connectRealtime()}
-</script><script>if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});</script><script src="/features.js"></script></body></html>
+</script><script>if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});</script><script src="/features.js"></script><script src="/ultimate.js"></script></body></html>
