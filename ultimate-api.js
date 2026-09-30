@@ -1,7 +1,7 @@
 module.exports=function(app,ctx){
 const {db,save,id,user,auth,notify,publicUser}=ctx;
 const arr=k=>{if(!Array.isArray(db[k]))db[k]=[];return db[k]};
-function purchaseLock(key){if(!db.__purchaseLocks)db.__purchaseLocks={};if(db.__purchaseLocks[key])return false;db.__purchaseLocks[key]=Date.now();return true}
+function purchaseLock(key){if(!db.__purchaseLocks)db.__purchaseLocks={};const now=Date.now(),stamp=Number(db.__purchaseLocks[key]||0);if(stamp&&now-stamp<60000)return false;db.__purchaseLocks[key]=now;return true}
 function clearPurchaseLock(key){if(db.__purchaseLocks)delete db.__purchaseLocks[key]}
 for(const k of ['privacy','notificationPrefs','postSettings','sounds','deletedVideos','series','seriesPurchases','pinned','verificationRequests','promotions','fanClubs','fanClubMembers','securityPins','accessibility','aiDrafts'])arr(k);
 const clean=(s,n=500)=>String(s??'').trim().slice(0,n),now=()=>new Date().toISOString();
