@@ -4,7 +4,7 @@ const A=k=>{if(!Array.isArray(db[k]))db[k]=[];return db[k]},now=()=>new Date().t
 for(const k of ['worlds','worldMembers','collabMatches','challenges','challengeEntries','ideas','watchRooms','watchMembers','creatorChains','trendSignals','creatorGoals','missions','missionProgress','nearbySettings','moments','feedControls','creatorProducts','productPurchases','miniSeries','polls','reactions','questions','vipRooms','vipRoomPurchases','creatorAcademy','academyProgress'])A(k);
 const w=uid=>{db.wallets??={};return db.wallets[uid]??=( {coins:0,creatorEarningsCoins:0} )};
 const req=(body,fields=[])=>fields.every(k=>body&&body[k]!==undefined&&clean(body[k])!=='');
-function purchaseLock(key){if(!db.__purchaseLocks)db.__purchaseLocks={};if(db.__purchaseLocks[key])return false;db.__purchaseLocks[key]=Date.now();return true}
+function purchaseLock(key){if(!db.__purchaseLocks)db.__purchaseLocks={};const now=Date.now(),stamp=Number(db.__purchaseLocks[key]||0);if(stamp&&now-stamp<60000)return false;db.__purchaseLocks[key]=now;return true}
 function clearPurchaseLock(key){if(db.__purchaseLocks)delete db.__purchaseLocks[key]}
 const create=(k,o)=>{const x={id:id(k),createdAt:now(),...o};A(k).push(x);save();return x};
 app.get('/api/worlds',auth,(q,r)=>r.json(A('worlds').slice(-100).reverse()));
