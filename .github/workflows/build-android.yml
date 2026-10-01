@@ -32,6 +32,12 @@ jobs:
           cache: npm
           cache-dependency-path: mobile/package.json
 
+      - name: Install server dependencies
+        run: npm install --ignore-scripts
+
+      - name: Run backend smoke test
+        run: npm run smoke
+
       - name: Install mobile dependencies
         working-directory: mobile
         run: npm install
