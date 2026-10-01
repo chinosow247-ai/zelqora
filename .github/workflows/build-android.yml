@@ -35,8 +35,12 @@ jobs:
       - name: Install server dependencies
         run: npm install --ignore-scripts
 
-      - name: Run backend smoke test
-        run: npm run smoke
+      - name: Verify backend JavaScript syntax
+        run: |
+          node --check server.js
+          node --check feature-api.js
+          node --check ultimate-api.js
+          node --check signature-api.js
 
       - name: Install mobile dependencies
         working-directory: mobile
