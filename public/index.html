@@ -5,7 +5,7 @@
 <div id="app" class="app hide"><div class="top"><img src="/assets/zelqora-logo.png" class="miniLogo"><div><button class="btn alt" onclick="openSearch()">🔎 Search</button> <button class="btn alt" onclick="openZelqoraHub()">🚀 Tools</button></div></div>
 <section id="home" class="page active"></section><section id="discover" class="page"></section><section id="create" class="page"></section><section id="inbox" class="page"></section><section id="profile" class="page"></section>
 <nav class="bottom" aria-label="Zelqora navigation"><button data-p="home" onclick="go('home')"><b>⌂</b>Home</button><button data-p="discover" onclick="go('discover')"><b>✦</b>Discover</button><button data-p="create" onclick="go('create')" class="create zel-create" aria-label="Open Zelqora Create"><b><span class="zel-create-core">Z</span></b><span class="zel-create-label">Create</span></button><button data-p="inbox" onclick="go('inbox')"><b>◌</b>Messages</button><button data-p="profile" onclick="go('profile')"><b>◉</b>Me</button></nav></div><div id="modal"></div><div id="toast"></div>
-<script>
+<script src="/ads.js"></script><script>
 let token=localStorage.getItem('zelqoraToken'),me=JSON.parse(localStorage.getItem('zelqoraUser')||'null'),feedMode='for-you',chatUser=null,feedCache=[];const $=id=>document.getElementById(id);
 async function api(path,opt={}){opt.headers={...(opt.headers||{}),...(token?{Authorization:'Bearer '+token}:{}),...(opt.body?{'Content-Type':'application/json'}:{})};let r=await fetch(path,opt);let d=await r.json();if(!r.ok)throw Error(d.error||'Request failed');return d}
 function toast(t){$('toast').textContent=t;$('toast').className='toast';setTimeout(()=>$('toast').className='',1800)}
