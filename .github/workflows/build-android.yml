@@ -60,6 +60,18 @@ jobs:
         working-directory: mobile
         run: npx cap sync android
 
+      - name: Configure AdMob test app ID
+        working-directory: mobile
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          manifest=Path("android/app/src/main/AndroidManifest.xml")
+          app_id="${{ vars.ZELQORA_ADMOB_ANDROID_APP_ID || 'ca-app-pub-3940256099942544~3347511713' }}"
+          s=manifest.read_text()
+          if 'com.google.android.gms.ads.APPLICATION_ID' not in s:
+              s=s.replace('<application', '<application\\n        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="'+app_id+'"/>', 1)
+              manifest.write_text(s)
+          PY
       - name: Build debug APK
         working-directory: mobile/android
         run: ./gradlew assembleDebug --no-daemon
