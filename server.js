@@ -32,6 +32,15 @@ function transactionExists(userId,type,reference){return db.transactions.some(t=
 
 const COIN_NGN_VALUE=30;
 
+// Public AdMob configuration. Ad unit IDs are identifiers, not secret keys.
+// Set production IDs as ADMOB_ANDROID_BANNER_ID, ADMOB_ANDROID_INTERSTITIAL_ID,
+// ADMOB_IOS_BANNER_ID and ADMOB_IOS_INTERSTITIAL_ID in the hosting environment.
+app.get('/api/ads/config',(req,res)=>res.json({
+  enabled:process.env.ADMOB_ENABLED==='true',
+  android:{banner:process.env.ADMOB_ANDROID_BANNER_ID||'',interstitial:process.env.ADMOB_ANDROID_INTERSTITIAL_ID||''},
+  ios:{banner:process.env.ADMOB_IOS_BANNER_ID||'',interstitial:process.env.ADMOB_IOS_INTERSTITIAL_ID||''}
+}));
+
 // Zelqora feature roadmap: LIVE, Duet, Stitch, Stories, Reposts, Saves/Collections,
 // Playlists, Creator Studio, Subscriptions, messaging upgrades, discovery controls,
 // moderation/reporting, privacy controls, drafts, and safety workflows.
