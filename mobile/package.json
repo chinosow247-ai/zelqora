@@ -16,7 +16,8 @@
     "@capacitor/filesystem": "latest",
     "@capacitor/haptics": "latest",
     "@capacitor/share": "latest",
-    "@capacitor/status-bar": "latest"
+    "@capacitor/status-bar": "latest",
+    "@capacitor-community/admob": "^7.2.1"
   },
   "devDependencies": {
     "@capacitor/cli": "latest"
